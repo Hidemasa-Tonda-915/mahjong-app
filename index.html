@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>麻雀ゲーム</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #1a5c2a;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      color: #f0e68c;
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .section {
+      background: rgba(0,0,0,0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .section h2 {
+      color: #f0e68c;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.85;
+    }
+
+    /* ── 牌の基本スタイル ── */
+    .tile {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 72px;
+      background: #fffff0;
+      border: 2px solid #b8a96a;
+      border-radius: 6px;
+      margin: 3px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 2px 3px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.8);
+      transition: transform 0.1s, box-shadow 0.1s;
+      position: relative;
+    }
+
+    .tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 2px 7px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .tile.selected {
+      transform: translateY(-12px);
+      box-shadow: 2px 12px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.8);
+      border-color: #e63946;
+      background: #fff8f8;
+    }
+
+    .tile .tile-num {
+      font-size: 1.4rem;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .tile .tile-suit {
+      font-size: 0.55rem;
+      letter-spacing: 0.02em;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    /* 色分け */
+    .tile.man   .tile-num { color: #c0392b; }
+    .tile.pin   .tile-num { color: #2471a3; }
+    .tile.sou   .tile-num { color: #1e8449; }
+    .tile.jihai .tile-num { font-size: 1rem; color: #2c2c2c; }
+
+    /* ── 手牌エリア ── */
+    .hand-area {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      padding: 16px 10px 10px;
+      min-height: 110px;
+    }
+
+    /* ── 全牌一覧エリア ── */
+    .all-tiles-area {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .suit-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .suit-label {
+      color: #f0e68c;
+      font-size: 0.8rem;
+      width: 44px;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    /* ── ボタン ── */
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      background: #f0e68c;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    button:hover  { background: #f7d94c; transform: translateY(-1px); }
+    button:active { transform: translateY(1px); }
+
+    #info {
+      color: #f0e68c;
+      font-size: 0.9rem;
+      min-height: 1.4em;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+<h1>麻雀ゲーム</h1>
+
+<div class="controls">
+  <button onclick="dealHand()">配牌する</button>
+  <button onclick="clearSelection()">選択解除</button>
+</div>
+
+<p id="info">「配牌する」を押してください</p>
+
+<!-- 手牌 -->
+<div class="section">
+  <h2>手牌（14枚）</h2>
+  <div class="hand-area" id="hand"></div>
+</div>
+
+<!-- 全牌一覧 -->
+<div class="section">
+  <h2>牌一覧</h2>
+  <div class="all-tiles-area" id="allTiles"></div>
+</div>
+
+<script>
+  // ─── 牌の定義 ────────────────────────────────────────────
+  const SUITS = {
+    man:   { label: 'マンズ', cls: 'man',   chars: ['１','２','３','４','５','６','７','８','９'], sub: '万' },
+    pin:   { label: 'ピンズ', cls: 'pin',   chars: ['①','②','③','④','⑤','⑥','⑦','⑧','⑨'], sub: '筒' },
+    sou:   { label: 'ソウズ', cls: 'sou',   chars: ['一','二','三','四','五','六','七','八','九'], sub: '竹' },
+    jihai: { label: '字牌',   cls: 'jihai', chars: ['東','南','西','北','白','發','中'], sub: '' },
+  };
+
+  const SUIT_ORDER = { man: 0, pin: 1, sou: 2, jihai: 3 };
+
+  // 136牌デッキ生成（各牌4枚）
+  function buildDeck() {
+    const deck = [];
+    Object.keys(SUITS).forEach(suit => {
+      SUITS[suit].chars.forEach((_, idx) => {
+        for (let k = 0; k < 4; k++) deck.push({ suit, idx });
+      });
+    });
+    return deck;
+  }
+
+  // Fisher–Yates シャッフル
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // 手牌ソート（種類順 → 番号順）
+  function sortHand(hand) {
+    return hand.slice().sort((a, b) =>
+      SUIT_ORDER[a.suit] !== SUIT_ORDER[b.suit]
+        ? SUIT_ORDER[a.suit] - SUIT_ORDER[b.suit]
+        : a.idx - b.idx
+    );
+  }
+
+  // ─── 牌 DOM 生成 ─────────────────────────────────────────
+  function createTileEl(suit, idx, clickable) {
+    const { cls, chars, sub } = SUITS[suit];
+    const div = document.createElement('div');
+    div.className = `tile ${cls}`;
+
+    const numEl = document.createElement('span');
+    numEl.className = 'tile-num';
+    numEl.textContent = chars[idx];
+    div.appendChild(numEl);
+
+    if (sub) {
+      const subEl = document.createElement('span');
+      subEl.className = 'tile-suit';
+      subEl.textContent = sub;
+      div.appendChild(subEl);
+    }
+
+    if (clickable) div.addEventListener('click', () => toggleSelect(div));
+    return div;
+  }
+
+  function toggleSelect(el) {
+    el.classList.toggle('selected');
+    updateInfo();
+  }
+
+  function clearSelection() {
+    document.querySelectorAll('#hand .tile.selected')
+      .forEach(el => el.classList.remove('selected'));
+    updateInfo();
+  }
+
+  function updateInfo() {
+    const n = document.querySelectorAll('#hand .tile.selected').length;
+    document.getElementById('info').textContent = n > 0 ? `${n} 枚選択中` : '';
+  }
+
+  // ─── 配牌 ─────────────────────────────────────────────────
+  function dealHand() {
+    const hand = sortHand(shuffle(buildDeck()).slice(0, 14));
+    const handEl = document.getElementById('hand');
+    handEl.innerHTML = '';
+    hand.forEach(({ suit, idx }) => handEl.appendChild(createTileEl(suit, idx, true)));
+    document.getElementById('info').textContent = '牌をクリックして選択できます';
+  }
+
+  // ─── 全牌一覧 ─────────────────────────────────────────────
+  function renderAllTiles() {
+    const container = document.getElementById('allTiles');
+    Object.entries(SUITS).forEach(([suit, info]) => {
+      const row = document.createElement('div');
+      row.className = 'suit-row';
+
+      const label = document.createElement('span');
+      label.className = 'suit-label';
+      label.textContent = info.label;
+      row.appendChild(label);
+
+      info.chars.forEach((_, idx) => row.appendChild(createTileEl(suit, idx, false)));
+      container.appendChild(row);
+    });
+  }
+
+  renderAllTiles();
+</script>
+</body>
+</html>
