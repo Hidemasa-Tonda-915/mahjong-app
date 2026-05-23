@@ -29,7 +29,7 @@
     /* ── ステータスバー ── */
     .status-bar {
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -55,7 +55,7 @@
       background: #f0e68c;
       border: none;
       border-radius: 8px;
-      padding: 9px 20px;
+      padding: 9px 22px;
       font-size: 0.9rem;
       font-weight: bold;
       cursor: pointer;
@@ -82,7 +82,7 @@
       align-items: center;
       gap: 8px;
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
     }
     .ron-panel.visible { display: flex; }
     .ron-panel p { font-size: 0.88rem; }
@@ -91,7 +91,7 @@
     /* ── ゲームテーブル ── */
     .table {
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
       background: #155a28;
       border: 4px solid #7a5c1a;
       border-radius: 18px;
@@ -117,7 +117,7 @@
     /* ── 中段 ── */
     .middle {
       display: grid;
-      grid-template-columns: 120px 1fr 120px;
+      grid-template-columns: 130px 1fr 130px;
       gap: 8px;
       align-items: start;
     }
@@ -141,7 +141,7 @@
       gap: 1px;
       justify-content: center;
       align-items: flex-start;
-      min-height: 32px;
+      min-height: 34px;
     }
     .disc-zone.top    { grid-column: 2; grid-row: 1; }
     .disc-zone.left   { grid-column: 1; grid-row: 2; justify-content: flex-end; }
@@ -153,7 +153,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 8px 12px;
+      padding: 8px 14px;
     }
     .wall-info .wall-num { font-size: 1.5rem; font-weight: bold; }
     .wall-info .wall-lbl { font-size: 0.6rem; opacity: 0.7; }
@@ -165,7 +165,7 @@
       justify-content: center;
       align-items: flex-end;
       gap: 2px;
-      min-height: 40px;
+      min-height: 44px;
     }
 
     .player-hand {
@@ -174,14 +174,13 @@
       justify-content: center;
       align-items: flex-end;
       gap: 2px;
-      min-height: 86px;
-      padding: 4px 2px;
+      min-height: 92px;
+      padding: 6px 4px 4px;
     }
 
     /* ── 牌 ── */
     .tile {
       display: inline-flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       background: #fffff0;
@@ -190,37 +189,51 @@
       position: relative;
       flex-shrink: 0;
       transition: transform 0.12s, box-shadow 0.12s;
+      box-shadow: 1px 2px 3px rgba(0,0,0,0.3);
     }
 
-    .tile.sz-lg { width: 46px; height: 64px; }
-    .tile.sz-sm { width: 26px; height: 36px; }
-    .tile.sz-xs { width: 20px; height: 28px; }
+    /* サイズ */
+    .tile.sz-lg { width: 52px; height: 70px; }
+    .tile.sz-sm { width: 28px; height: 40px; }
+    .tile.sz-xs { width: 22px; height: 30px; }
 
-    .tile.sz-lg .tile-num { font-size: 1.2rem; font-weight: bold; }
-    .tile.sz-lg .tile-sub { font-size: 0.46rem; opacity: 0.75; margin-top: 1px; }
-    .tile.sz-sm .tile-num { font-size: 0.72rem; font-weight: bold; }
-    .tile.sz-sm .tile-sub { font-size: 0.38rem; opacity: 0.75; }
-    .tile.sz-xs .tile-num { font-size: 0.56rem; font-weight: bold; }
-    .tile.sz-xs .tile-sub { display: none; }
+    /* 牌面の絵柄（Unicode麻雀タイル） */
+    .tile-face {
+      font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .tile.sz-lg .tile-face { font-size: 2.7rem; }
+    .tile.sz-sm .tile-face { font-size: 1.45rem; }
+    .tile.sz-xs .tile-face { font-size: 1.15rem; }
 
-    .tile.man   .tile-num { color: #c0392b; }
-    .tile.pin   .tile-num { color: #2471a3; }
-    .tile.sou   .tile-num { color: #1e8449; }
-    .tile.jihai .tile-num { color: #2c2c2c; }
-    .tile.jihai.sz-lg .tile-num { font-size: 0.85rem; }
-
+    /* 裏面 */
     .tile.face-down {
       background: linear-gradient(150deg, #2c5f8a, #1a3d5c);
       border-color: #4a7090;
+      box-shadow: 1px 2px 3px rgba(0,0,0,0.4);
     }
 
-    .tile.clickable { cursor: pointer; box-shadow: 1px 2px 4px rgba(0,0,0,0.3); }
-    .tile.clickable:hover { transform: translateY(-6px); box-shadow: 1px 8px 10px rgba(0,0,0,0.4); }
+    /* クリック可能 */
+    .tile.clickable { cursor: pointer; }
+    .tile.clickable:hover {
+      transform: translateY(-7px);
+      box-shadow: 1px 9px 12px rgba(0,0,0,0.45);
+    }
+
+    /* 選択中 */
     .tile.selected {
-      transform: translateY(-18px) !important;
+      transform: translateY(-20px) !important;
       border-color: #e63946 !important;
       background: #fff5f5 !important;
-      box-shadow: 1px 12px 16px rgba(0,0,0,0.5) !important;
+      box-shadow: 1px 14px 18px rgba(0,0,0,0.55) !important;
+    }
+
+    /* ツモ牌とのギャップ */
+    .drawn-gap {
+      width: 14px;
+      flex-shrink: 0;
+      align-self: stretch;
     }
 
     /* ── 結果オーバーレイ ── */
@@ -244,6 +257,8 @@
     }
     .overlay-box h2 { font-size: 1.8rem; margin-bottom: 10px; }
     .overlay-box p  { margin-bottom: 20px; opacity: 0.85; font-size: 0.95rem; }
+
+    .hint { font-size: 0.72rem; opacity: 0.65; margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -257,7 +272,6 @@
 
 <div class="controls">
   <button id="btn-start"   onclick="startGame()">ゲームスタート</button>
-  <button id="btn-draw"    onclick="playerDraw()"    disabled>ツモ</button>
   <button id="btn-discard" onclick="playerDiscard()" disabled>捨てる</button>
 </div>
 
@@ -273,7 +287,7 @@
 
   <!-- CPU2（上） -->
   <div class="area">
-    <div class="area-label" id="lbl-cpu2">CPU2</div>
+    <div class="area-label">CPU2</div>
     <div class="hand-row" id="hand-cpu2"></div>
   </div>
 
@@ -282,8 +296,8 @@
 
     <!-- CPU1（左） -->
     <div class="area">
-      <div class="area-label" id="lbl-cpu1">CPU1</div>
-      <div class="hand-row" id="hand-cpu1" style="max-width:120px;"></div>
+      <div class="area-label">CPU1</div>
+      <div class="hand-row" id="hand-cpu1" style="max-width:130px;"></div>
     </div>
 
     <!-- センター -->
@@ -300,8 +314,8 @@
 
     <!-- CPU3（右） -->
     <div class="area">
-      <div class="area-label" id="lbl-cpu3">CPU3</div>
-      <div class="hand-row" id="hand-cpu3" style="max-width:120px;"></div>
+      <div class="area-label">CPU3</div>
+      <div class="hand-row" id="hand-cpu3" style="max-width:130px;"></div>
     </div>
 
   </div>
@@ -310,6 +324,7 @@
   <div class="area">
     <div class="area-label">あなたの手牌</div>
     <div class="player-hand" id="hand-player"></div>
+    <div class="hint" id="hint-text"></div>
   </div>
 
 </div>
@@ -327,14 +342,25 @@
 // ─────────────────────────────────────────────────────────
 // 定数
 // ─────────────────────────────────────────────────────────
+
+// 表示用 Unicode 麻雀タイル
 const SUITS = {
-  man:   { cls: 'man',   chars: ['１','２','３','４','５','６','７','８','９'], sub: '萬' },
-  pin:   { cls: 'pin',   chars: ['①','②','③','④','⑤','⑥','⑦','⑧','⑨'], sub: '筒' },
-  sou:   { cls: 'sou',   chars: ['一','二','三','四','五','六','七','八','九'], sub: '索' },
-  jihai: { cls: 'jihai', chars: ['東','南','西','北','白','發','中'], sub: '' },
+  man:   { chars: ['🀇','🀈','🀉','🀊','🀋','🀌','🀍','🀎','🀏'] },
+  pin:   { chars: ['🀙','🀚','🀛','🀜','🀝','🀞','🀟','🀠','🀡'] },
+  sou:   { chars: ['🀐','🀑','🀒','🀓','🀔','🀕','🀖','🀗','🀘'] },
+  jihai: { chars: ['🀀','🀁','🀂','🀃','🀆','🀅','🀄'] },
 };
+
+// ステータスメッセージ用テキスト名
+const TILE_NAMES = {
+  man:   ['１萬','２萬','３萬','４萬','５萬','６萬','７萬','８萬','９萬'],
+  pin:   ['１筒','２筒','３筒','４筒','５筒','６筒','７筒','８筒','９筒'],
+  sou:   ['１索','２索','３索','４索','５索','６索','７索','８索','９索'],
+  jihai: ['東','南','西','北','白','發','中'],
+};
+
 const SUIT_ORDER = { man: 0, pin: 1, sou: 2, jihai: 3 };
-const NAMES = ['あなた', 'CPU1', 'CPU2', 'CPU3'];
+const PLAYER_NAMES = ['あなた', 'CPU1', 'CPU2', 'CPU3'];
 
 // ─────────────────────────────────────────────────────────
 // ゲーム状態
@@ -343,16 +369,20 @@ let G = {};
 
 function initG() {
   G = {
-    phase: 'idle',  // idle | p-draw | p-discard | cpu | ron-offer | win | end
+    phase: 'idle',  // idle | p-discard | cpu | ron-offer | win | end
     wall: [],
-    players: [],    // [{name, hand, discards, isHuman}]
-    cur: 0,         // currentPlayer index
-    sel: -1,        // selectedTileIndex in sorted player hand
-    ronCb: null,    // callback after ron decision
+    players: [],    // [{name, hand(13枚), drawn(ツモ牌|null), discards, isHuman}]
+    cur: 0,
+    sel: -1,        // -1=未選択 / 0〜12=手牌インデックス / 'drawn'=ツモ牌
+    ronCb: null,
     ronFromPidx: -1,
   };
 }
 initG();
+
+// DOM参照（ダブルクリック時のDOM再生成を避けるため）
+let _handEls = [];
+let _drawnEl = null;
 
 // ─────────────────────────────────────────────────────────
 // 牌ユーティリティ
@@ -380,9 +410,7 @@ const tileCmp = (a, b) =>
 
 const sortHand = hand => hand.slice().sort(tileCmp);
 
-function tileName(t) {
-  return SUITS[t.suit].chars[t.idx] + (SUITS[t.suit].sub || '字');
-}
+const tileName = t => TILE_NAMES[t.suit][t.idx];
 
 // ─────────────────────────────────────────────────────────
 // あがり判定
@@ -397,26 +425,22 @@ function counts(tiles) {
 }
 
 function canMentsu(c) {
-  // 最小キーを探す
   let minKey = null;
   for (const k of Object.keys(c)) {
     if (!minKey) { minKey = k; continue; }
     const [ms, mi] = minKey.split('-');
     const [ks, ki] = k.split('-');
-    const d = SUIT_ORDER[ks] - SUIT_ORDER[ms] || (+ki - +mi);
-    if (d < 0) minKey = k;
+    if ((SUIT_ORDER[ks] - SUIT_ORDER[ms]) || (+ki - +mi) < 0) minKey = k;
   }
   if (!minKey) return true;
 
   const [suit, idxStr] = minKey.split('-');
   const idx = +idxStr;
 
-  // 刻子
   if (c[minKey] >= 3) {
     const nc = { ...c }; nc[minKey] -= 3; if (!nc[minKey]) delete nc[minKey];
     if (canMentsu(nc)) return true;
   }
-  // 順子
   if (suit !== 'jihai') {
     const k1 = suit + '-' + (idx + 1);
     const k2 = suit + '-' + (idx + 2);
@@ -434,12 +458,9 @@ function canMentsu(c) {
 function isWin(hand) {
   if (hand.length !== 14) return false;
   const c = counts(hand);
-
-  // 七対子
   const vals = Object.values(c);
-  if (vals.length === 7 && vals.every(v => v === 2)) return true;
+  if (vals.length === 7 && vals.every(v => v === 2)) return true; // 七対子
 
-  // 標準形: 雀頭 + 4面子
   const tried = new Set();
   for (const t of hand) {
     const k = t.suit + '-' + t.idx;
@@ -454,22 +475,19 @@ function isWin(hand) {
 }
 
 // ─────────────────────────────────────────────────────────
-// CPU AI：孤立牌を捨てる
+// CPU AI
 // ─────────────────────────────────────────────────────────
-function cpuDiscard(hand) {
+function cpuChooseDiscard(hand) {
   const sorted = sortHand(hand);
   const c = counts(sorted);
   let worstIdx = 0, worstScore = Infinity;
-
   sorted.forEach((t, i) => {
     const k = t.suit + '-' + t.idx;
     let score = (c[k] || 0) * 10;
-    if (t.suit !== 'jihai') {
+    if (t.suit !== 'jihai')
       for (const d of [-2, -1, 1, 2]) {
-        const ak = t.suit + '-' + (t.idx + d);
-        if (c[ak]) score += (Math.abs(d) === 1 ? 5 : 2);
+        if (c[t.suit + '-' + (t.idx + d)]) score += (Math.abs(d) === 1 ? 5 : 2);
       }
-    }
     if (score < worstScore) { worstScore = score; worstIdx = i; }
   });
   return worstIdx;
@@ -481,48 +499,76 @@ function cpuDiscard(hand) {
 function startGame() {
   initG();
   const deck = shuffle(buildDeck());
-  G.players = NAMES.map((name, i) => ({
+  G.players = PLAYER_NAMES.map((name, i) => ({
     name, isHuman: i === 0,
     hand: sortHand(deck.splice(0, 13)),
+    drawn: null,
     discards: [],
   }));
   G.wall = deck;
-  G.phase = 'p-draw';
   G.cur = 0;
-  msg('あなたの番です。「ツモ」を押して牌を引いてください。');
+  msg('ゲームスタート！');
   syncButtons();
   render();
+  setTimeout(() => startPlayerTurn(), 400);
 }
 
-function playerDraw() {
-  if (G.phase !== 'p-draw') return;
-  const tile = draw(0);
-  if (!tile) return;
+// プレイヤーのツモ（自動）
+function startPlayerTurn() {
+  if (G.wall.length === 0) { endRyukyoku(); return; }
 
+  const tile = G.wall.pop();
+  G.players[0].drawn = tile;
   G.phase = 'p-discard';
   G.sel = -1;
 
-  if (isWin(G.players[0].hand)) {
+  if (isWin([...G.players[0].hand, tile])) {
+    render();
     finishWin('ツモあがり！', `${tileName(tile)} をツモって上がりました！`);
     return;
   }
 
-  msg(`ツモ：${tileName(tile)}。捨てる牌をクリックして選び「捨てる」を押してください。`);
+  msg(`ツモ：${tileName(tile)}。捨てる牌をダブルクリック、または選んで「捨てる」。`);
+  hint('ダブルクリック → 即切り　シングルクリック → 選択');
   syncButtons();
   render();
 }
 
+// プレイヤーの捨て牌（ボタン経由）
 function playerDiscard() {
-  if (G.phase !== 'p-discard' || G.sel < 0) return;
+  if (G.phase !== 'p-discard' || G.sel === -1) return;
+  if (G.sel === 'drawn') {
+    discardPlayerTile(true, -1);
+  } else {
+    discardPlayerTile(false, G.sel);
+  }
+}
 
+// プレイヤーの捨て牌（共通処理）
+// isDrawn=true → ツモ牌を切る / false → 手牌インデックス idx を切る
+function discardPlayerTile(isDrawn, idx) {
+  if (G.phase !== 'p-discard') return;
   const p = G.players[0];
-  const sorted = sortHand(p.hand);
-  const [discarded] = sorted.splice(G.sel, 1);
-  p.hand = sorted;
+  let discarded;
+
+  if (isDrawn) {
+    discarded = p.drawn;
+    p.drawn = null;
+    // hand は 13 枚のまま
+  } else {
+    const sorted = sortHand(p.hand);
+    discarded = sorted[idx];
+    // ツモ牌を手牌に統合し、選んだ牌を捨てる
+    const remaining = sorted.filter((_, i) => i !== idx);
+    p.hand = sortHand([...remaining, p.drawn]);
+    p.drawn = null;
+  }
+
   p.discards.push(discarded);
   G.sel = -1;
+  hint('');
 
-  // CPU ロンチェック
+  // 他プレイヤーのロンチェック（CPU は自動）
   const rIdx = ronCheck(discarded, 0);
   if (rIdx !== -1) {
     render();
@@ -535,18 +581,15 @@ function playerDiscard() {
   nextCpu(1);
 }
 
-function draw(pidx) {
-  if (G.wall.length === 0) {
-    G.phase = 'end';
-    render();
-    showOverlay('流局', '山牌がなくなりました。');
-    return null;
-  }
+// 山から CPU がツモ
+function drawCpu(pidx) {
+  if (G.wall.length === 0) { endRyukyoku(); return null; }
   const tile = G.wall.pop();
   G.players[pidx].hand.push(tile);
   return tile;
 }
 
+// ロンチェック（対象プレイヤーの手牌 13 枚 + 牌 = 14 枚）
 function ronCheck(tile, fromPidx) {
   for (let i = 0; i < 4; i++) {
     if (i === fromPidx) continue;
@@ -555,13 +598,14 @@ function ronCheck(tile, fromPidx) {
   return -1;
 }
 
+// CPU のターンチェーン
 function nextCpu(pidx) {
   if (pidx > 3) {
-    // 全CPUターン終了 → プレイヤーへ
-    G.phase = 'p-draw';
     G.cur = 0;
-    msg(`あなたの番です。「ツモ」を押してください。（山牌残り ${G.wall.length} 枚）`);
+    msg('あなたの番です。ツモります...');
     syncButtons();
+    render();
+    setTimeout(() => startPlayerTurn(), 350);
     return;
   }
   G.phase = 'cpu';
@@ -576,31 +620,31 @@ function runCpu(pidx) {
   if (G.phase !== 'cpu') return;
   const p = G.players[pidx];
 
-  const tile = draw(pidx);
+  const tile = drawCpu(pidx);
   if (!tile) return;
   render();
 
-  // ツモあがりチェック
+  // ツモあがりチェック（CPU hand は 14 枚）
   if (isWin(p.hand)) {
     finishWin(`${p.name} がツモあがり！`, `${tileName(tile)} をツモって上がりました。`);
     return;
   }
 
-  // 捨て牌
+  // CPU が捨て牌を選ぶ
   const sorted = sortHand(p.hand);
-  const discIdx = cpuDiscard(sorted);
-  const [discarded] = sorted.splice(discIdx, 1);
+  const di = cpuChooseDiscard(sorted);
+  const [discarded] = sorted.splice(di, 1);
   p.hand = sorted;
   p.discards.push(discarded);
   render();
 
-  // プレイヤーのロンチェック（優先）
+  // プレイヤーのロンオファー（優先）
   if (isWin([...G.players[0].hand, discarded])) {
     offerRon(discarded, p.name, pidx);
     return;
   }
 
-  // 他CPUのロンチェック（自動）
+  // 他 CPU のロンチェック（自動）
   for (let j = 1; j < 4; j++) {
     if (j === pidx) continue;
     if (isWin([...G.players[j].hand, discarded])) {
@@ -649,6 +693,12 @@ function finishWin(title, detail) {
   showOverlay(title, detail);
 }
 
+function endRyukyoku() {
+  G.phase = 'end';
+  render();
+  showOverlay('流局', '山牌がなくなりました。');
+}
+
 function showOverlay(title, detail) {
   document.getElementById('overlay-title').textContent = title;
   document.getElementById('overlay-msg').textContent = detail;
@@ -662,87 +712,122 @@ function newGame() {
 }
 
 // ─────────────────────────────────────────────────────────
-// UI ユーティリティ
+// UI ヘルパー
 // ─────────────────────────────────────────────────────────
-function msg(text) {
-  document.getElementById('status-msg').textContent = text;
-}
+function msg(text) { document.getElementById('status-msg').textContent = text; }
+function hint(text) { document.getElementById('hint-text').textContent = text; }
 
 function syncButtons() {
   const p = G.phase;
-  const canStart   = p === 'idle' || p === 'win' || p === 'end';
-  const canDraw    = p === 'p-draw';
-  const canDiscard = p === 'p-discard' && G.sel >= 0;
-  document.getElementById('btn-start').disabled   = !canStart;
-  document.getElementById('btn-draw').disabled    = !canDraw;
-  document.getElementById('btn-discard').disabled = !canDiscard;
+  document.getElementById('btn-start').disabled   = !['idle','win','end'].includes(p);
+  document.getElementById('btn-discard').disabled = p !== 'p-discard' || G.sel === -1;
 }
 
 // ─────────────────────────────────────────────────────────
 // 描画
 // ─────────────────────────────────────────────────────────
-function makeTile(tile, { size = 'sz-sm', faceDown = false, clickable = false, selected = false } = {}) {
+function makeTile(tile, opts = {}) {
+  const { size = 'sz-sm', faceDown = false, clickable = false, selected = false } = opts;
   const div = document.createElement('div');
-  const cls = SUITS[tile.suit].cls;
-  div.className = ['tile', cls, size,
+  div.className = ['tile', size,
     faceDown  ? 'face-down' : '',
     clickable ? 'clickable' : '',
     selected  ? 'selected'  : '',
   ].filter(Boolean).join(' ');
 
   if (!faceDown) {
-    const n = document.createElement('span');
-    n.className = 'tile-num';
-    n.textContent = SUITS[tile.suit].chars[tile.idx];
-    div.appendChild(n);
-    if (SUITS[tile.suit].sub) {
-      const s = document.createElement('span');
-      s.className = 'tile-sub';
-      s.textContent = SUITS[tile.suit].sub;
-      div.appendChild(s);
-    }
+    const s = document.createElement('span');
+    s.className = 'tile-face';
+    s.textContent = SUITS[tile.suit].chars[tile.idx];
+    div.appendChild(s);
   }
   return div;
 }
 
+// プレイヤー手牌の描画
+// シングルクリックで選択（DOMクラス直接操作）、ダブルクリックで即切り
 function renderPlayerHand() {
-  const el = document.getElementById('hand-player');
-  el.innerHTML = '';
-  if (!G.players[0]) return;
+  const container = document.getElementById('hand-player');
+  container.innerHTML = '';
+  _handEls = [];
+  _drawnEl = null;
 
-  const sorted = sortHand(G.players[0].hand);
-  const selectable = G.phase === 'p-discard';
+  const p = G.players[0];
+  if (!p) return;
+
+  const sorted = sortHand(p.hand);
+  const active = G.phase === 'p-discard';
 
   sorted.forEach((tile, i) => {
-    const t = makeTile(tile, {
+    const el = makeTile(tile, {
       size: 'sz-lg',
-      clickable: selectable,
-      selected: selectable && i === G.sel,
+      clickable: active,
+      selected: active && G.sel === i,
     });
-    if (selectable) {
-      t.addEventListener('click', () => {
-        G.sel = (G.sel === i) ? -1 : i;
+
+    if (active) {
+      el.addEventListener('click', (e) => {
+        if (e.detail >= 2) {
+          // ダブルクリック → 即切り
+          discardPlayerTile(false, i);
+          return;
+        }
+        // シングルクリック → 選択トグル（DOM を再生成せず class 操作のみ）
+        G.sel = G.sel === i ? -1 : i;
+        _handEls.forEach((t, j) => t.classList.toggle('selected', j === G.sel));
+        if (_drawnEl) _drawnEl.classList.toggle('selected', G.sel === 'drawn');
         syncButtons();
-        renderPlayerHand();
       });
     }
-    el.appendChild(t);
+
+    _handEls.push(el);
+    container.appendChild(el);
   });
+
+  // ツモ牌（ギャップを挟んで末尾に表示）
+  if (p.drawn) {
+    const gap = document.createElement('div');
+    gap.className = 'drawn-gap';
+    container.appendChild(gap);
+
+    _drawnEl = makeTile(p.drawn, {
+      size: 'sz-lg',
+      clickable: active,
+      selected: active && G.sel === 'drawn',
+    });
+
+    if (active) {
+      _drawnEl.addEventListener('click', (e) => {
+        if (e.detail >= 2) {
+          discardPlayerTile(true, -1);
+          return;
+        }
+        G.sel = G.sel === 'drawn' ? -1 : 'drawn';
+        _handEls.forEach((t, j) => t.classList.toggle('selected', j === G.sel));
+        _drawnEl.classList.toggle('selected', G.sel === 'drawn');
+        syncButtons();
+      });
+    }
+
+    container.appendChild(_drawnEl);
+  }
 }
 
 function renderCpuHand(pidx, elId) {
   const el = document.getElementById(elId);
   el.innerHTML = '';
   if (!G.players[pidx]) return;
-  G.players[pidx].hand.forEach(() => {
-    el.appendChild(makeTile({ suit: 'man', idx: 0 }, { size: 'sz-xs', faceDown: true }));
-  });
+  G.players[pidx].hand.forEach(() =>
+    el.appendChild(makeTile({ suit: 'man', idx: 0 }, { size: 'sz-xs', faceDown: true }))
+  );
 }
 
 function renderDiscards(elId, discards) {
   const el = document.getElementById(elId);
   el.innerHTML = '';
-  discards.slice(-15).forEach(t => el.appendChild(makeTile(t, { size: 'sz-xs' })));
+  discards.slice(-15).forEach(t =>
+    el.appendChild(makeTile(t, { size: 'sz-xs' }))
+  );
 }
 
 function render() {
@@ -762,7 +847,7 @@ function render() {
   renderDiscards('disc-3', G.players[3].discards);
 }
 
-// 初期状態
+// 初期表示
 msg('「ゲームスタート」を押してください。');
 syncButtons();
 </script>
