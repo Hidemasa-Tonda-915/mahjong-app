@@ -171,7 +171,7 @@
 
 <!-- 手牌 -->
 <div class="section">
-  <h2>手牌（14枚）</h2>
+  <h2>手牌（13枚）</h2>
   <div class="hand-area" id="hand"></div>
 </div>
 
@@ -184,9 +184,9 @@
 <script>
   // ─── 牌の定義 ────────────────────────────────────────────
   const SUITS = {
-    man:   { label: 'マンズ', cls: 'man',   chars: ['１','２','３','４','５','６','７','８','９'], sub: '万' },
+    man:   { label: 'マンズ', cls: 'man',   chars: ['１','２','３','４','５','６','７','８','９'], sub: '萬' },
     pin:   { label: 'ピンズ', cls: 'pin',   chars: ['①','②','③','④','⑤','⑥','⑦','⑧','⑨'], sub: '筒' },
-    sou:   { label: 'ソウズ', cls: 'sou',   chars: ['一','二','三','四','五','六','七','八','九'], sub: '竹' },
+    sou:   { label: 'ソウズ', cls: 'sou',   chars: ['一','二','三','四','五','六','七','八','九'], sub: '索' },
     jihai: { label: '字牌',   cls: 'jihai', chars: ['東','南','西','北','白','發','中'], sub: '' },
   };
 
@@ -261,7 +261,7 @@
 
   // ─── 配牌 ─────────────────────────────────────────────────
   function dealHand() {
-    const hand = sortHand(shuffle(buildDeck()).slice(0, 14));
+    const hand = sortHand(shuffle(buildDeck()).slice(0, 13));
     const handEl = document.getElementById('hand');
     handEl.innerHTML = '';
     hand.forEach(({ suit, idx }) => handEl.appendChild(createTileEl(suit, idx, true)));
